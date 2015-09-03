@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+
+	<!-- Base definitions -->
+
+
+	<definition name="base.definition.nonav"
+		template="/WEB-INF/tiles/layouts/skeleton_nomenu.jsp">
+		<put-attribute name="title" value="" />
+		<put-attribute name="navigation"
+			value="" />
+		<put-attribute name="footer" value="/tiles/credits.jsp" />
+		<put-attribute name="sub-navigation" value="" />
+		<put-attribute name="currentPage" value="home" />
+	</definition>
+
+
+	<definition name="base.definition" template="/WEB-INF/tiles/layouts/skeleton.jsp">
+		<put-attribute name="title" value="" />
+		<put-attribute name="navigation"
+			value="" />
+		<put-attribute name="footer" value="/tiles/credits.jsp" />
+		<put-attribute name="sub-navigation" value="" />
+		<put-attribute name="right-sub-navigation" value="" />
+		<put-attribute name="currentPage" value="login" />
+	</definition>
+
+
+	<definition name="base.definition.left"
+		template="/WEB-INF/tiles/layouts/skeleton_leftnav.jsp">
+		<put-attribute name="title" value="" />
+		<put-attribute name="navigation"
+			value="" />
+		<put-attribute name="footer" value="/tiles/credits.jsp" />
+		<put-attribute name="sub-navigation" value="" />
+		<put-attribute name="right-sub-navigation" value="" />
+		<put-attribute name="currentPage" value="login" />
+		<put-attribute name="left-navigation" value="" />
+
+
+	</definition>
+
+	<definition name="home" extends="base.definition.nonav">
+		<put-attribute name="title" value="Hercklues - Home" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/home.jsp" />
+	</definition>
+
+</tiles-definitions>
+
+	
