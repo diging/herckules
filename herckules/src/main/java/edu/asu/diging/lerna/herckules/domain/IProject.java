@@ -2,8 +2,8 @@ package edu.asu.diging.lerna.herckules.domain;
 
 import java.util.List;
 
+import edu.asu.diging.lerna.herckules.authentication.IUser;
 import edu.asu.diging.lerna.herckules.domain.schema.factory.ISchema;
-import edu.asu.diging.lerna.herckules.user.IUser;
 
 public interface IProject {
 

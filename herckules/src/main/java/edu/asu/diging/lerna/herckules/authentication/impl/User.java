@@ -1,12 +1,12 @@
-package edu.asu.diging.lerna.herckules.user.impl;
+package edu.asu.diging.lerna.herckules.authentication.impl;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.security.core.userdetails.UserDetails;
 
-import edu.asu.diging.lerna.herckules.user.HerckulesGrantedAuthority;
-import edu.asu.diging.lerna.herckules.user.IUser;
+import edu.asu.diging.lerna.herckules.authentication.HerckulesGrantedAuthority;
+import edu.asu.diging.lerna.herckules.authentication.IUser;
 
 public class User implements IUser, UserDetails {
 

@@ -1,7 +1,7 @@
 package edu.asu.diging.lerna.herckules.domain.impl;
 
+import edu.asu.diging.lerna.herckules.authentication.impl.User;
 import edu.asu.diging.lerna.herckules.domain.IRole;
-import edu.asu.diging.lerna.herckules.user.impl.User;
 
 /**
  * {@link Role} is used to define a role for the {@link User}

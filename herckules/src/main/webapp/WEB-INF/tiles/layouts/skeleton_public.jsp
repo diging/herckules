@@ -5,7 +5,7 @@
 
 <!DOCTYPE HTML>
 
-<html>
+<html ng-app>
 <head>
 <title><tiles:insertAttribute name="title" /></title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
@@ -52,7 +52,8 @@
 
 <script
 	src="${pageContext.servletContext.contextPath}/resources/txt-layout/js/jquery-ui.js"></script>
-	
+<script src="${pageContext.servletContext.contextPath}/resources/js/angular.min.js">
+<script src="${pageContext.servletContext.contextPath}/resources/js/projectController.js">
 </head>
 <body class="homepage">
 	<tiles:importAttribute name="currentPage" scope="request" />
