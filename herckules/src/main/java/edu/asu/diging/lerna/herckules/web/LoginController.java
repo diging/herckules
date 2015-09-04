@@ -20,7 +20,7 @@ public class LoginController {
 	 * 
 	 * @return		Redirected to the login page
 	 */
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(value = {"/", "/login"}, method = RequestMethod.GET)
 	public String login(ModelMap model) {
 		return "login";
 	}
