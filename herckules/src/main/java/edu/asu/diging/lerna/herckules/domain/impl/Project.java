@@ -1,6 +1,13 @@
 package edu.asu.diging.lerna.herckules.domain.impl;
 
+
 import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 import edu.asu.diging.lerna.herckules.authentication.IUser;
 import edu.asu.diging.lerna.herckules.domain.IIolausDetails;
@@ -8,14 +15,20 @@ import edu.asu.diging.lerna.herckules.domain.IProject;
 import edu.asu.diging.lerna.herckules.domain.schema.factory.ISchema;
 
 public class Project implements IProject {
+	@Id
 	private String projectid;
 	private String projectName;
 	private String description;
 	private String projectIdentifier;
-	private List<String> databaseList;
+	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+	private List<String> databaseList; // 1-mny annotations
 	
 	private IUser creator;
-	private List<IUser> projectAdmins;
+	
+	@Transient
+	private List<IUser> projectAdmins; // 1 - many anno
+	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+	private List<String> adminUserNames;
 	
 	private String dataset;
 	private ISchema schema;

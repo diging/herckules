@@ -3,22 +3,17 @@ package edu.asu.diging.lerna.herckules.authentication.impl;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
-
 import com.objectdb.Utilities;
-
 import edu.asu.diging.lerna.herckules.authentication.HerckulesGrantedAuthority;
 import edu.asu.diging.lerna.herckules.authentication.IUser;
 import edu.asu.diging.lerna.herckules.authentication.IUserManager;
-
 @Component
 @PropertySource(value = "classpath:/db.properties")
 public class UserManager implements IUserManager {
