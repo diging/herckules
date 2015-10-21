@@ -1,14 +1,10 @@
 package edu.asu.diging.lerna.herckules.authentication.impl;
-
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
-import edu.asu.diging.lerna.herckules.authentication.HerckulesGrantedAuthority;
 import edu.asu.diging.lerna.herckules.authentication.IProjectDBConnector;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +14,6 @@ import org.springframework.core.env.Environment;
 
 import com.objectdb.Utilities;
 
-import edu.asu.diging.lerna.herckules.domain.IProject;
 import edu.asu.diging.lerna.herckules.domain.impl.Project;
 
 @Component
@@ -42,44 +37,49 @@ public class ProjectDBConnector implements IProjectDBConnector {
 		manager.getTransaction().begin();
 		TypedQuery<Project> query = manager.createQuery(
 				"SELECT p FROM Project p WHERE p.creator == :creator",
-				Project.class);		
+				Project.class);	
+		p = query.setParameter("creator", p.getCreator()).getSingleResult();
 		manager.getTransaction().commit();
 		manager.close();
-		return query.setParameter("creator", p.getCreator()).getSingleResult();
+		return p;		
 	}
 
 	public boolean addProject(Project p) {
-
-		// Remove The Check
 		EntityManager manager = Utilities.getEntityManager(dbPath);
 		manager.getTransaction().begin();
-		Project obj;
-		boolean flag = false;
-		obj = p;
-		manager.persist(obj);
-		flag = true;
+		manager.persist(p);
 		manager.getTransaction().commit();
 		manager.close();
-		return flag;
+		return true;
 	}
 
 	public boolean updateProject(Project p) {
-		
-		return deleteProject(p.getProjectid()) && addProject(p);
-		
-	}
-
-	// Use the manager class delete functionality
-	public boolean deleteProject(String projectid) {
 		EntityManager manager = Utilities.getEntityManager(dbPath);
 		manager.getTransaction().begin();
-		Project p1 = manager.find(Project.class, projectid);
+		Project proj = manager.find(Project.class, p.getProjectid());
+		proj.setCreator(p.getCreator());
+		proj.setProjectAdmins(p.getProjectAdmins());
+		proj.setDescription(p.getDescription());
+		proj.setProjectName(p.getProjectName());
+		proj.setSchema(p.getSchema());
+		proj.setIolausDetails(p.getIolausDetails());
+		proj.setDataset(p.getDataset());
+		proj.setDatabaseList(p.getDatabaseList());
+		manager.getTransaction().commit();
+		manager.close();
+		return true;				
+	}
+
+	public boolean deleteProject(String projectid) throws Exception {
+		EntityManager manager = Utilities.getEntityManager(dbPath);
+		manager.getTransaction().begin();
+		Project proj = manager.find(Project.class, projectid);
 		boolean flag = false;
-		if (p1 !=null) {
-			manager.remove(p1);
+		try{
+			manager.remove(proj);
 			flag = true;
 		}
-		else{
+		catch (Exception e){
 			flag = false;
 		}
 		manager.getTransaction().commit();

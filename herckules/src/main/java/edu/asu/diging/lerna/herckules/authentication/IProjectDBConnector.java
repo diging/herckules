@@ -6,5 +6,5 @@ public interface IProjectDBConnector {
 	public Project retrieveProject(Project p);
 	public boolean addProject(Project p);
 	public boolean updateProject(Project p);
-	public boolean deleteProject(String projectid);
+	public boolean deleteProject(String projectid) throws Exception;
 }
