@@ -1,4 +1,5 @@
 package edu.asu.diging.lerna.herckules.authentication.impl;
+
 import java.io.File;
 
 import javax.annotation.PostConstruct;
@@ -16,13 +17,21 @@ import com.objectdb.Utilities;
 
 import edu.asu.diging.lerna.herckules.domain.impl.Project;
 
+/** Description of ProjectDBConnector class
+ * This class helps retrieve, add, update, delete project from an ObjectDB database.
+ * 
+ * @author Vineel Vutukuri
+ * @author Tamalika Mukherjee
+ * 
+ */
+
 @Component
 @PropertySource(value = "classpath:/db.properties")
 public class ProjectDBConnector implements IProjectDBConnector {
 	@Autowired
 	private Environment env;
 	private String dbPath;
-
+	
 	@PostConstruct
 	public void init() {
 		String projFolder = env.getProperty("db.path");
@@ -31,20 +40,29 @@ public class ProjectDBConnector implements IProjectDBConnector {
 		}
 		dbPath = projFolder + env.getProperty("db.proj.name");
 	}
-
+	
 	public Project retrieveProject(Project p) {
+		/**Retrieves project by searching through the creator attribute from
+		 * the database. 
+		 * @param  Project
+		 */
 		EntityManager manager = Utilities.getEntityManager(dbPath);
 		manager.getTransaction().begin();
 		TypedQuery<Project> query = manager.createQuery(
 				"SELECT p FROM Project p WHERE p.creator == :creator",
-				Project.class);	
+				Project.class);
 		p = query.setParameter("creator", p.getCreator()).getSingleResult();
 		manager.getTransaction().commit();
 		manager.close();
-		return p;		
+		return p;
 	}
 
 	public boolean addProject(Project p) {
+		
+		/**Adds the project to the database.
+		 * @param  Project
+		 */
+		
 		EntityManager manager = Utilities.getEntityManager(dbPath);
 		manager.getTransaction().begin();
 		manager.persist(p);
@@ -52,8 +70,11 @@ public class ProjectDBConnector implements IProjectDBConnector {
 		manager.close();
 		return true;
 	}
-
+	
 	public boolean updateProject(Project p) {
+		/**Updates all the attributes of the project.
+		 * @param  Project
+		 */
 		EntityManager manager = Utilities.getEntityManager(dbPath);
 		manager.getTransaction().begin();
 		Project proj = manager.find(Project.class, p.getProjectid());
@@ -67,19 +88,25 @@ public class ProjectDBConnector implements IProjectDBConnector {
 		proj.setDatabaseList(p.getDatabaseList());
 		manager.getTransaction().commit();
 		manager.close();
-		return true;				
+		return true;
 	}
-
+	
 	public boolean deleteProject(String projectid) throws Exception {
+		/**
+		 * @throws NullPointerException           
+		 * If project with specified project id is missing.
+		 * 
+		 * @param projectid
+		 */
+		
 		EntityManager manager = Utilities.getEntityManager(dbPath);
 		manager.getTransaction().begin();
 		Project proj = manager.find(Project.class, projectid);
 		boolean flag = false;
-		try{
+		try {
 			manager.remove(proj);
 			flag = true;
-		}
-		catch (Exception e){
+		} catch (NullPointerException e) {
 			flag = false;
 		}
 		manager.getTransaction().commit();
