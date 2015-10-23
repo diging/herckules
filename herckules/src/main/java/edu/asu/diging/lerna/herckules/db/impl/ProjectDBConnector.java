@@ -1,12 +1,10 @@
-package edu.asu.diging.lerna.herckules.authentication.impl;
+package edu.asu.diging.lerna.herckules.db.impl;
 
 import java.io.File;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-
-import edu.asu.diging.lerna.herckules.authentication.IProjectDBConnector;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
@@ -15,6 +13,7 @@ import org.springframework.core.env.Environment;
 
 import com.objectdb.Utilities;
 
+import edu.asu.diging.lerna.herckules.db.IProjectDBConnector;
 import edu.asu.diging.lerna.herckules.domain.impl.Project;
 
 /** Description of ProjectDBConnector class
