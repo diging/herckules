@@ -1,23 +1,38 @@
 package edu.asu.diging.lerna.herckules.domain.impl;
 
+
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Transient;
+
+import edu.asu.diging.lerna.herckules.authentication.IUser;
 import edu.asu.diging.lerna.herckules.domain.IIolausDetails;
 import edu.asu.diging.lerna.herckules.domain.IProject;
 import edu.asu.diging.lerna.herckules.domain.schema.factory.ISchema;
-import edu.asu.diging.lerna.herckules.user.IUser;
 
 public class Project implements IProject {
+	@Id
 	private String projectid;
 	private String projectName;
 	private String description;
 	private String projectIdentifier;
-	private List<String> databaseList;
+	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+	private List<String> databaseList; // 1-mny annotations
 	
 	private IUser creator;
-	private List<IUser> projectAdmins;
+	
+	@Transient
+	private List<IUser> projectAdmins; // 1 - many anno
+	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+	private List<String> adminUserNames;
 	
 	private String dataset;
+	private ISchema schema;
+	private IIolausDetails iolausDetails;
 	
 	@Override
 	public String getDataset() {
@@ -29,8 +44,6 @@ public class Project implements IProject {
 		this.dataset = dataset;
 	}
 
-	//@DBRef
-	private IIolausDetails iolausDetails;
 	
 	private String instanceid;
 	@Override
@@ -42,8 +55,7 @@ public class Project implements IProject {
 		this.instanceid = instanceid;
 	}
 
-	private ISchema schema;
-
+	
 	@Override
 	public String getProjectid() {
 		return projectid;
@@ -112,85 +124,6 @@ public class Project implements IProject {
 	@Override
 	public void setDatabaseList(List<String> databaseList) {
 		this.databaseList = databaseList;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-
-		IProject project = (IProject) obj;
-		if (projectid == null) {
-			if (project.getProjectid() != null)
-				return false;
-		} else if (!projectid.equals(project.getProjectid()))
-			return false;
-
-		if (projectName == null) {
-			if (project.getProjectName() != null)
-				return false;
-		} else if (!projectName.equals(project.getProjectName()))
-			return false;
-		
-		if (description == null) {
-			if (project.getDescription() != null)
-				return false;
-		} else if (!description.equals(project.getDescription()))
-			return false;
-		
-		if (projectIdentifier == null) {
-			if (project.getProjectIdentifier() != null)
-				return false;
-		} else if (!projectIdentifier.equals(project.getProjectIdentifier()))
-			return false;
-		
-		if (creator == null) {
-			if (project.getCreator() != null)
-				return false;
-		} else if (!creator.equals(project.getCreator()))
-			return false;
-		
-		if (projectAdmins == null) {
-			if (project.getProjectAdmins() != null)
-				return false;
-		} else if (!projectAdmins.equals(project.getProjectAdmins()))
-			return false;
-		
-		if (dataset == null) {
-			if (project.getDataset() != null)
-				return false;
-		} else if (!dataset.equals(project.getDataset()))
-			return false;
-		
-		
-		if (iolausDetails == null) {
-			if (project.getIolausDetails() != null)
-				return false;
-		} else if (!iolausDetails.equals(project.getIolausDetails()))
-			return false;
-		
-		return true;
-	}
-
-	@Override
-	public int hashCode() {
-		
-		final int prime = 31;
-		int result = 1;
-		result = prime * result	+ ((projectid == null) ? 0 : projectid.hashCode());
-		result = prime * result	+ ((projectName == null) ? 0 : projectName.hashCode());
-		result = prime * result + ((description == null) ? 0 : description.hashCode());
-		result = prime * result + ((projectIdentifier == null) ? 0 : projectIdentifier.hashCode());
-		result = prime * result + ((creator == null) ? 0 : creator.hashCode());
-		result = prime * result + ((projectAdmins == null) ? 0 : projectAdmins.hashCode());
-		result = prime * result + ((dataset == null) ? 0 : dataset.hashCode());
-		result = prime * result + ((iolausDetails == null) ? 0 : iolausDetails.hashCode());
-		
-		return result;
 	}
 
 	@Override

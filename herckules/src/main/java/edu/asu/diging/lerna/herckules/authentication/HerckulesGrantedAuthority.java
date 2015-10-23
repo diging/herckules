@@ -1,4 +1,4 @@
-package edu.asu.diging.lerna.herckules.user;
+package edu.asu.diging.lerna.herckules.authentication;
 
 import org.springframework.security.core.GrantedAuthority;
 

@@ -46,7 +46,12 @@
 	<definition name="home" extends="base.definition.nonav">
 		<put-attribute name="title" value="Hercklues - Home" />
 		<put-attribute name="content"
-			value="/WEB-INF/views/home.jsp" />
+			value="/WEB-INF/views/auth/home.jsp" />
+	</definition>
+	<definition name="login" extends="base.definition.nonav">
+		<put-attribute name="title" value="Hercklues - Login" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/login.jsp" />
 	</definition>
 
 </tiles-definitions>

@@ -1,4 +1,4 @@
-package edu.asu.diging.lerna.herckules.user;
+package edu.asu.diging.lerna.herckules.authentication;
 
 import java.util.List;
 
