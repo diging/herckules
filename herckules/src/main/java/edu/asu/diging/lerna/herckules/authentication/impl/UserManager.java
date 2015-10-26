@@ -1,90 +1,76 @@
 package edu.asu.diging.lerna.herckules.authentication.impl;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
-
-import com.objectdb.Utilities;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.asu.diging.lerna.herckules.authentication.HerckulesGrantedAuthority;
 import edu.asu.diging.lerna.herckules.authentication.IUser;
 import edu.asu.diging.lerna.herckules.authentication.IUserManager;
 
 @Component
-@PropertySource(value = "classpath:/db.properties")
+@Transactional
 public class UserManager implements IUserManager {
-	@Autowired
-	private Environment env;
-	private String dbpath;
-	
-	@PostConstruct
-	public void init() {
-		String dbfolder = env.getProperty("db.path");
-		if (!dbfolder.endsWith(File.separator))
-			dbfolder = dbfolder + File.separator;
-		dbpath = dbfolder + env.getProperty("db.name");
-	}
-	
-	/* (non-Javadoc)
-	 * @see edu.asu.diging.lerna.herckules.authentication.impl.IUserManager#saveUser(edu.asu.diging.lerna.herckules.authentication.IUser)
+
+	@PersistenceContext
+	protected EntityManager manager;
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.asu.diging.lerna.herckules.authentication.impl.IUserManager#saveUser
+	 * (edu.asu.diging.lerna.herckules.authentication.IUser)
 	 */
+	@Transactional
 	@Override
 	public void saveUser(IUser user) {
-		EntityManager manager = Utilities.getEntityManager(dbpath);
-		manager.getTransaction().begin();
-		TypedQuery<PersistentUser> q = manager.createQuery("SELECT p FROM PersistentUser p WHERE p.username == '" + user.getUsername() + "'", PersistentUser.class);
+		TypedQuery<PersistentUser> q = manager.createQuery(
+				"SELECT p FROM PersistentUser p WHERE p.username == '"
+						+ user.getUsername() + "'", PersistentUser.class);
 		List<PersistentUser> users = q.getResultList();
 		PersistentUser obj;
 		if (users == null || users.isEmpty()) {
 			obj = new PersistentUser();
 			obj.setUsername(user.getUsername());
 			manager.persist(obj);
-		}
-		else
+		} else
 			obj = users.iterator().next();
-		
+
 		List<String> roles = new ArrayList<String>();
 		for (HerckulesGrantedAuthority authority : user.getAuthorities()) {
 			roles.add(authority.getAuthority());
 		}
-		
+
 		((PersistentUser) obj).setAuthorities(roles);
 		((PersistentUser) obj).setEmail(user.getEmail());
 		((PersistentUser) obj).setName(user.getName());
 		((PersistentUser) obj).setPassword(user.getPassword());
-		
-		manager.getTransaction().commit();
-		manager.close();
+		manager.merge(obj);
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.asu.diging.lerna.herckules.authentication.impl.IUserManager#getUserById(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.asu.diging.lerna.herckules.authentication.impl.IUserManager#getUserById
+	 * (java.lang.String)
 	 */
 	@Override
+	@Transactional
 	public User getUserById(String userId) {
-		EntityManager manager = Utilities.getEntityManager(dbpath);
-		manager.getTransaction().begin();
-		try {
-			PersistentUser perUser = manager.find(PersistentUser.class, userId);
-			if (perUser == null)
-				return null;
-			
-			User user = createUser(perUser);
-			return user;
-		} finally {
-			manager.getTransaction().commit();
-			manager.close();
-		}
-		
+		PersistentUser perUser = manager.find(PersistentUser.class, userId);
+		if (perUser == null)
+			return null;
+
+		User user = createUser(perUser);
+		return user;
 	}
 
 	private User createUser(PersistentUser persUser) {
@@ -101,44 +87,41 @@ public class UserManager implements IUserManager {
 		return user;
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.asu.diging.lerna.herckules.authentication.impl.IUserManager#getAllUsers()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.asu.diging.lerna.herckules.authentication.impl.IUserManager#getAllUsers
+	 * ()
 	 */
 	@Override
 	public List<User> getAllUsers() {
-		EntityManager manager = Utilities.getEntityManager(dbpath);
-		manager.getTransaction().begin();
 		List<User> allUsers = new ArrayList<User>();
-		TypedQuery<PersistentUser> query =
-				    manager.createQuery("SELECT p FROM PersistentUser p", PersistentUser.class);
+		TypedQuery<PersistentUser> query = manager.createQuery(
+				"SELECT p FROM PersistentUser p", PersistentUser.class);
 		List<PersistentUser> users = query.getResultList();
-		
+
 		for (PersistentUser user : users) {
 			allUsers.add(createUser(user));
 		}
-		manager.getTransaction().commit();
-		manager.close();
 		return allUsers;
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.asu.diging.lerna.herckules.authentication.impl.IUserManager#deleteUser(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.asu.diging.lerna.herckules.authentication.impl.IUserManager#deleteUser
+	 * (java.lang.String)
 	 */
 	@Override
 	public boolean deleteUser(String username) {
-		EntityManager manager = Utilities.getEntityManager(dbpath);
-		manager.getTransaction().begin();
 		PersistentUser perUser = manager.find(PersistentUser.class, username);
-		
-		boolean success = true;
+
 		if (perUser != null) {
 			manager.remove(perUser);
-		}
-		else {
-			success = false;
-		}
-		manager.getTransaction().commit();
-		manager.close();
-		return success;		
+			return true;
+		} 
+		return false;
 	}
 }
