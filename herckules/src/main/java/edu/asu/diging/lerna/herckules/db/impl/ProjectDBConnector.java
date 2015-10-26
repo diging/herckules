@@ -24,52 +24,52 @@ import edu.asu.diging.lerna.herckules.domain.impl.Project;
 public class ProjectDBConnector implements IProjectDBConnector {
 
 	@PersistenceContext
-	protected EntityManager manager;
+	private EntityManager manager;
 
-	/**
-	 * Retrieves project by searching through the creator attribute from the
-	 * database.
-	 * 
-	 * @param Project
-	 */
 	@Transactional
-	public Project retrieveProject(Project p) {
-		TypedQuery<Project> query = manager.createQuery(
-				"SELECT p FROM Project p WHERE p.creator == :creator",
-				Project.class);
-		p = query.setParameter("creator", p.getCreator()).getSingleResult();
-		return p;
+	public Project retrieveProject(Project project) {
+		/**
+		 * Retrieves project by searching through the creator attribute from the
+		 * database.
+		 * 
+		 * @param Project
+		 */
+		TypedQuery<Project> query = manager
+				.createQuery(
+						"SELECT project FROM Project project WHERE project.creator == :creator",
+						Project.class);
+		project = query.setParameter("creator", project.getCreator())
+				.getSingleResult();
+		return project;
 	}
 
 	@Transactional
-	public boolean addProject(Project p) {
-
+	public boolean addProject(Project project) {
 		/**
 		 * Adds the project to the database.
 		 * 
 		 * @param Project
 		 */
-
-		manager.persist(p);
+		manager.persist(project);
 		return true;
 	}
 
 	@Transactional
-	public boolean updateProject(Project p) {
+	public boolean updateProject(Project project) {
 		/**
 		 * Updates all the attributes of the project.
 		 * 
 		 * @param Project
 		 */
-		Project proj = manager.find(Project.class, p.getProjectid());
-		proj.setCreator(p.getCreator());
-		proj.setProjectAdmins(p.getProjectAdmins());
-		proj.setDescription(p.getDescription());
-		proj.setProjectName(p.getProjectName());
-		proj.setSchema(p.getSchema());
-		proj.setIolausDetails(p.getIolausDetails());
-		proj.setDataset(p.getDataset());
-		proj.setDatabaseList(p.getDatabaseList());
+		Project proj = manager.find(Project.class, project.getProjectid());
+		proj.setCreator(project.getCreator());
+		proj.setProjectAdmins(project.getProjectAdmins());
+		proj.setDescription(project.getDescription());
+		proj.setProjectName(project.getProjectName());
+		proj.setSchema(project.getSchema());
+		proj.setIolausDetails(project.getIolausDetails());
+		proj.setDataset(project.getDataset());
+		proj.setDatabaseList(project.getDatabaseList());
 		return true;
 	}
 
@@ -82,10 +82,10 @@ public class ProjectDBConnector implements IProjectDBConnector {
 		 * @param projectid
 		 */
 
-		Project proj = manager.find(Project.class, projectid);
+		Project project = manager.find(Project.class, projectid);
 		boolean flag = false;
 		try {
-			manager.remove(proj);
+			manager.remove(project);
 			flag = true;
 		} catch (NullPointerException e) {
 			flag = false;
