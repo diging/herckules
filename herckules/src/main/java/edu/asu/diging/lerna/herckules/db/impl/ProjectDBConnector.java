@@ -9,13 +9,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import edu.asu.diging.lerna.herckules.db.IProjectDBConnector;
 import edu.asu.diging.lerna.herckules.domain.impl.Project;
+import edu.asu.diging.lerna.herkules.exception.*;
 
 /**
  * Description of ProjectDBConnector class This class helps retrieve, add,
  * update, delete project from an ObjectDB database.
  * 
- * @author Vineel Vutukuri
  * @author Tamalika Mukherjee
+ * @author Vineel Vutukuri
  * 
  */
 
@@ -74,23 +75,23 @@ public class ProjectDBConnector implements IProjectDBConnector {
 	}
 
 	@Transactional
-	public boolean deleteProject(String projectid) throws Exception {
+	public boolean deleteProject(String projectID)
+			throws ProjectNotFoundException {
 		/**
-		 * @throws NullPointerException
-		 *             If project with specified project id is missing.
+		 * Removes the project with the specified projectID.
 		 * 
-		 * @param projectid
+		 * @param projectID
 		 */
 
-		Project project = manager.find(Project.class, projectid);
-		boolean flag = false;
-		try {
-			manager.remove(project);
-			flag = true;
-		} catch (NullPointerException e) {
-			flag = false;
-		}
-		return flag;
-	}
+		Project project = manager.find(Project.class, projectID);
 
+		if (project != null) {
+			manager.remove(project);
+			return true;
+		}
+
+		throw new ProjectNotFoundException(
+				"Project with the specified Id does not exist.");
+
+	}
 }
