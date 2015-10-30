@@ -12,8 +12,9 @@ import edu.asu.diging.lerna.herckules.domain.impl.Project;
 import edu.asu.diging.lerna.herkules.exception.*;
 
 /**
- * Description of ProjectDBConnector class This class helps retrieve, add,
- * update, delete project from an ObjectDB database.
+ * This class implements {@link IProjectDBConnector} functions. This component
+ * layer class is used to retrieve, or delete a project from a objectDB
+ * database. It also has functions for adding or modifying a project.
  * 
  * @author Tamalika Mukherjee
  * @author Vineel Vutukuri
@@ -34,6 +35,8 @@ public class ProjectDBConnector implements IProjectDBConnector {
 		 * database.
 		 * 
 		 * @param Project
+		 *            The project object that is to be retrieved from the
+		 *            database.
 		 */
 		TypedQuery<Project> query = manager
 				.createQuery(
@@ -50,6 +53,7 @@ public class ProjectDBConnector implements IProjectDBConnector {
 		 * Adds the project to the database.
 		 * 
 		 * @param Project
+		 *            The project object that is to be added to the database.
 		 */
 		manager.persist(project);
 		return true;
@@ -61,6 +65,8 @@ public class ProjectDBConnector implements IProjectDBConnector {
 		 * Updates all the attributes of the project.
 		 * 
 		 * @param Project
+		 *            The project object that is to be retrieved from the
+		 *            database.
 		 */
 		Project proj = manager.find(Project.class, project.getProjectid());
 		proj.setCreator(project.getCreator());
@@ -81,6 +87,10 @@ public class ProjectDBConnector implements IProjectDBConnector {
 		 * Removes the project with the specified projectID.
 		 * 
 		 * @param projectID
+		 *            The projectID that is to be deleted from the database.
+		 * @throws ProjectNotFoundException
+		 *             Exception thrown when the projectID is not found in the
+		 *             database.
 		 */
 
 		Project project = manager.find(Project.class, projectID);
@@ -91,7 +101,7 @@ public class ProjectDBConnector implements IProjectDBConnector {
 		}
 
 		throw new ProjectNotFoundException(
-				"Project with the specified Id does not exist.");
+				"Project with the specified ID does not exist.");
 
 	}
 }
