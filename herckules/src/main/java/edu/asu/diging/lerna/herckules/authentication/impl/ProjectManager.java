@@ -24,13 +24,15 @@ public class ProjectManager implements IProjectManager {
 
 	public boolean deleteProject(String projectid)
 			throws ProjectNotFoundException {
-		/*
+		/**
 		 * Deletes the project from the database after validation of parameter.
 		 * 
-		 * @param projectid 					The identifier for the project to be deleted.
-		 * 
-		 * @throws ProjectNotFoundException 	Exception thrown when project with
-		 * 											the specified ID does not exist.
+		 * @param projectid
+		 *            The identifier for the project to be deleted.
+		 * @return true if the project is deleted from the database.
+		 * @throws ProjectNotFoundException
+		 *             Exception thrown when project with the specified ID does
+		 *             not exist.
 		 */
 		if (projectid == null || projectid.trim().equals("")) {
 			throw new ProjectNotFoundException(
@@ -41,14 +43,15 @@ public class ProjectManager implements IProjectManager {
 
 	public Project retrieveProject(Project project)
 			throws HerckulesStorageException, ProjectNotFoundException {
-		/*
+		/**
 		 * Retrieves the project from the database after validation of
 		 * parameter.
 		 * 
-		 * @param project 						The project object that is to be retrieved.
-		 * 
-		 * @throws ProjectNotFoundException 	Exception thrown when project object
-		 * 														does not exist.
+		 * @param project
+		 *            The project object that is to be retrieved.
+		 * @return true if the project is retrieved from the database.
+		 * @throws ProjectNotFoundException
+		 *             Exception thrown when project object does not exist.
 		 */
 		if (project.getProjectid() == null
 				|| project.getProjectid().trim().equals("")) {
@@ -61,13 +64,14 @@ public class ProjectManager implements IProjectManager {
 
 	@Override
 	public boolean addProject(Project project) throws HerckulesStorageException {
-		/*
+		/**
 		 * Adds the project to the database after validation of parameter.
 		 * 
-		 * @param project 						The project object that is to be added.
-		 * 
-		 * @throws ProjectNotFoundException 	Exception thrown when project object
-		 * 										does not exist.
+		 * @param project
+		 *            The project object that is to be added.
+		 * @return true if the project is added to the database.
+		 * @throws ProjectNotFoundException
+		 *             Exception thrown when project object does not exist.
 		 */
 		if (project == null || project.getProjectid() == null
 				|| project.getProjectid().trim().equals("")
@@ -82,15 +86,16 @@ public class ProjectManager implements IProjectManager {
 	@Override
 	public boolean updateProject(Project project)
 			throws ProjectNotFoundException {
-		/*
+		/**
 		 * Updates to the database after validation of parameter.
 		 * 
-		 * @param project 						The project object that is to be updated.
-		 * 
-		 * @throws ProjectNotFoundException 	Exception thrown when project object
-		 * 										does not exist.
+		 * @param project
+		 *            The project object that is to be updated.
+		 * @return true if the project is updated in the database.
+		 * @throws ProjectNotFoundException
+		 *             Exception thrown when project object does not exist.
 		 */
-		
+
 		if (project.getProjectid() == null
 				|| project.getProjectid().trim().equals("")) {
 			throw new ProjectNotFoundException(

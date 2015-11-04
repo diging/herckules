@@ -18,7 +18,6 @@ import edu.asu.diging.lerna.herkules.exception.*;
  * 
  * @author Tamalika Mukherjee
  * @author Vineel Vutukuri
- * 
  */
 
 @Component
@@ -31,12 +30,13 @@ public class ProjectDBConnector implements IProjectDBConnector {
 	@Transactional
 	public Project retrieveProject(Project project) {
 		/**
-		 * Retrieves project by searching through the creator attribute from the
+		 * Retrieves project by searching through an attribute from the
 		 * database.
 		 * 
 		 * @param Project
 		 *            The project object that is to be retrieved from the
 		 *            database.
+		 * @return project The project object is returned.
 		 */
 		TypedQuery<Project> query = manager
 				.createQuery(
@@ -54,6 +54,8 @@ public class ProjectDBConnector implements IProjectDBConnector {
 		 * 
 		 * @param Project
 		 *            The project object that is to be added to the database.
+		 * @return true Returns true if the project is successfully added to the
+		 *         database.
 		 */
 		manager.persist(project);
 		return true;
@@ -67,6 +69,7 @@ public class ProjectDBConnector implements IProjectDBConnector {
 		 * @param Project
 		 *            The project object that is to be retrieved from the
 		 *            database.
+		 * @return true Returns true if the project object is updated.
 		 */
 		Project proj = manager.find(Project.class, project.getProjectid());
 		proj.setCreator(project.getCreator());
@@ -88,6 +91,7 @@ public class ProjectDBConnector implements IProjectDBConnector {
 		 * 
 		 * @param projectID
 		 *            The projectID that is to be deleted from the database.
+		 * @return true Returns true if the project is deleted.
 		 * @throws ProjectNotFoundException
 		 *             Exception thrown when the projectID is not found in the
 		 *             database.
