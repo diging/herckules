@@ -19,6 +19,7 @@ public class ProjectController {
 	
 	@Autowired
 	private IUserManager userManager;
+	
 
 	@RequestMapping(value = "auth/projects")
 	public @ResponseBody List<IProject> getProjects(Principal principal) {
