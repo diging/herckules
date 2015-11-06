@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import edu.asu.diging.lerna.herckules.authentication.IUser;
@@ -20,7 +21,6 @@ public class ProjectController {
 	
 	@Autowired
 	private IUserManager userManager;
-	private IProjectManager projectManager;
 
 	@RequestMapping(value = "auth/projects")
 	public @ResponseBody List<IProject> getProjects(Principal principal) {
@@ -38,8 +38,13 @@ public class ProjectController {
 		proj.setCreator(user);
 		proj.setProjectid("PROJ2");
 		proj.setProjectName("Project Nr. Lorem");
-		projects.add(proj);
-		
+		projects.add(proj);		
 		return projects;
 	}
+
+	@RequestMapping(value = "/retriveProject", method = RequestMethod.GET)
+		public String retrieveProject() {
+			return "retrieveProject";
+		}
+	
 }
