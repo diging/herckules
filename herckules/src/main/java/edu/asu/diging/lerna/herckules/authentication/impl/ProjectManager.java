@@ -2,10 +2,12 @@ package edu.asu.diging.lerna.herckules.authentication.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import edu.asu.diging.lerna.herckules.db.impl.ProjectDBConnector;
 import edu.asu.diging.lerna.herckules.domain.impl.Project;
+import edu.asu.diging.lerna.herkules.exception.HerckulesArgumentException;
 import edu.asu.diging.lerna.herkules.exception.HerckulesStorageException;
-import edu.asu.diging.lerna.herkules.exception.ProjectNotFoundException;
+import edu.asu.diging.lerna.herkules.exception.ProjectIDNotFoundException;
 
 /**
  * This class implements {@link IProjectManager} functions. This manager class
@@ -20,87 +22,100 @@ import edu.asu.diging.lerna.herkules.exception.ProjectNotFoundException;
 @Service
 public class ProjectManager implements IProjectManager {
 	@Autowired
-	ProjectDBConnector proj = new ProjectDBConnector();
+	private ProjectDBConnector dbconnector;
+
+	/**
+	 * Deletes the project from the database after validation of parameter.
+	 * 
+	 * @param projectid
+	 *            The identifier for the project to be deleted.
+	 * @return true if the project is deleted from the database.
+	 * @throws ProjectIDNotFoundException
+	 *             Exception thrown when project with the specified ID does not
+	 *             exist.
+	 * @throws HerckulesArgumentException
+	 *             Exception thrown if the provided projectID is empty or null
+	 */
 
 	public boolean deleteProject(String projectid)
-			throws ProjectNotFoundException {
-		/**
-		 * Deletes the project from the database after validation of parameter.
-		 * 
-		 * @param projectid
-		 *            The identifier for the project to be deleted.
-		 * @return true if the project is deleted from the database.
-		 * @throws ProjectNotFoundException
-		 *             Exception thrown when project with the specified ID does
-		 *             not exist.
-		 */
+			throws HerckulesArgumentException, ProjectIDNotFoundException {
+
 		if (projectid == null || projectid.trim().equals("")) {
-			throw new ProjectNotFoundException(
-					"Project with the specified ID does not exist.");
+			throw new HerckulesArgumentException(
+					IExceptionMessages.EMPTY_INPUT_EXCEPTION);
+
 		}
-		return proj.deleteProject(projectid);
+		return dbconnector.deleteProject(projectid);
 	}
 
+	/**
+	 * Retrieves the project from the database after validation of parameter.
+	 * 
+	 * @param project
+	 *            The project object that is to be retrieved.
+	 * @return true if the project is retrieved from the database.
+	 * @throws HerckulesArgumentException
+	 *             Exception thrown if the provided projectID is empty
+	 *             or null
+	 */
 	public Project retrieveProject(Project project)
-			throws HerckulesStorageException, ProjectNotFoundException {
-		/**
-		 * Retrieves the project from the database after validation of
-		 * parameter.
-		 * 
-		 * @param project
-		 *            The project object that is to be retrieved.
-		 * @return true if the project is retrieved from the database.
-		 * @throws ProjectNotFoundException
-		 *             Exception thrown when project object does not exist.
-		 */
+			throws HerckulesArgumentException {
+
 		if (project.getProjectid() == null
 				|| project.getProjectid().trim().equals("")) {
-			throw new ProjectNotFoundException(
-					"Specified project does not exist.");
+			throw new HerckulesArgumentException(
+					IExceptionMessages.EMPTY_INPUT_EXCEPTION);
 		}
-		return proj.retrieveProject(project);
+		return dbconnector.retrieveProject(project);
 
 	}
 
+	/**
+	 * Adds the project to the database after validation of parameter.
+	 * 
+	 * @param project
+	 *            The project object that is to be added.
+	 * @return true if the project is added to the database.
+	 * @throws HerckulesArgumentException
+	 *             Exception thrown if the provided projectID is empty
+	 *             or null
+	 */
+
 	@Override
-	public boolean addProject(Project project) throws HerckulesStorageException {
-		/**
-		 * Adds the project to the database after validation of parameter.
-		 * 
-		 * @param project
-		 *            The project object that is to be added.
-		 * @return true if the project is added to the database.
-		 * @throws ProjectNotFoundException
-		 *             Exception thrown when project object does not exist.
-		 */
+	public boolean addProject(Project project)
+			throws HerckulesArgumentException {
+
 		if (project == null || project.getProjectid() == null
 				|| project.getProjectid().trim().equals("")
 				|| project.getProjectName() == null
 				|| project.getProjectName().trim().equals("")) {
-			throw new HerckulesStorageException(
-					IExceptionMessages.OPERATION_EXCEPTION);
+			throw new HerckulesArgumentException(
+					IExceptionMessages.EMPTY_INPUT_EXCEPTION);
 		}
-		return proj.addProject(project);
+		return dbconnector.addProject(project);
 	}
 
+	/**
+	 * Updates to the database after validation of parameter.
+	 * 
+	 * @param project
+	 *            The project object that is to be updated.
+	 * @return true if the project is updated in the database.
+	 * @throws ProjectIDNotFoundException
+	 *             Exception thrown when project object does not exist.
+	 * @throws HerckulesArgumentException
+	 *             Exception thrown if the provided projectID is empty
+	 *             or null
+	 */
 	@Override
 	public boolean updateProject(Project project)
-			throws ProjectNotFoundException {
-		/**
-		 * Updates to the database after validation of parameter.
-		 * 
-		 * @param project
-		 *            The project object that is to be updated.
-		 * @return true if the project is updated in the database.
-		 * @throws ProjectNotFoundException
-		 *             Exception thrown when project object does not exist.
-		 */
+			throws ProjectIDNotFoundException, HerckulesArgumentException {
 
 		if (project.getProjectid() == null
 				|| project.getProjectid().trim().equals("")) {
-			throw new ProjectNotFoundException(
-					"Specified project does not exist.");
+			throw new HerckulesArgumentException(
+					IExceptionMessages.EMPTY_INPUT_EXCEPTION);
 		}
-		return proj.updateProject(project);
+		return dbconnector.updateProject(project);
 	}
 }
