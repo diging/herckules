@@ -29,11 +29,11 @@ public class ProjectDBConnector implements IProjectDBConnector {
 	private EntityManager manager;
 
 	/**
-	 * Adds the project to the database.
+	 * Retrieves the project from the database.
 	 * 
 	 * @param Project
-	 *            The project object that is to be added to the database.
-	 * @return true Returns true if the project is successfully added to the
+	 *            The project object that is to be retrieved to the database.
+	 * @return true Returns true if the project is successfully retrieved from the
 	 *         database.
 	 */
 	@Transactional
