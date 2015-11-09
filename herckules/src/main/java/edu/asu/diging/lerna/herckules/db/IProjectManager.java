@@ -1,4 +1,4 @@
-package edu.asu.diging.lerna.herckules.authentication.impl;
+package edu.asu.diging.lerna.herckules.db;
 
 import edu.asu.diging.lerna.herckules.domain.impl.Project;
 

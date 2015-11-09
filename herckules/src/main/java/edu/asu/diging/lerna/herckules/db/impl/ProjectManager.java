@@ -1,8 +1,10 @@
-package edu.asu.diging.lerna.herckules.authentication.impl;
+package edu.asu.diging.lerna.herckules.db.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import edu.asu.diging.lerna.herckules.db.impl.ProjectDBConnector;
+
+import edu.asu.diging.lerna.herckules.authentication.impl.IExceptionMessages;
+import edu.asu.diging.lerna.herckules.db.IProjectManager;
 import edu.asu.diging.lerna.herckules.domain.impl.Project;
 import edu.asu.diging.lerna.herkules.exception.HerckulesArgumentException;
 import edu.asu.diging.lerna.herkules.exception.HerckulesStorageException;
