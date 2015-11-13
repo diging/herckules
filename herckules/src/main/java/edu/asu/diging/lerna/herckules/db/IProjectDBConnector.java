@@ -5,7 +5,12 @@ import edu.asu.diging.lerna.herkules.exception.ProjectIDNotFoundException;
 
 public interface IProjectDBConnector {
 	public Project retrieveProject(Project project);
+
 	public boolean addProject(Project project);
-	public boolean updateProject(Project project) throws ProjectIDNotFoundException;
-	public boolean deleteProject(String projectid) throws ProjectIDNotFoundException;
+
+	public boolean updateProject(Project project)
+			throws ProjectIDNotFoundException;
+
+	public boolean deleteProject(String projectid)
+			throws ProjectIDNotFoundException;
 }

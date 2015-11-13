@@ -2,12 +2,11 @@ package edu.asu.diging.lerna.herckules.db.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import edu.asu.diging.lerna.herckules.authentication.impl.IExceptionMessages;
+import edu.asu.diging.lerna.herckules.db.IProjectDBConnector;
 import edu.asu.diging.lerna.herckules.db.IProjectManager;
 import edu.asu.diging.lerna.herckules.domain.impl.Project;
 import edu.asu.diging.lerna.herkules.exception.HerckulesArgumentException;
-import edu.asu.diging.lerna.herkules.exception.HerckulesStorageException;
 import edu.asu.diging.lerna.herkules.exception.ProjectIDNotFoundException;
 
 /**
@@ -23,7 +22,7 @@ import edu.asu.diging.lerna.herkules.exception.ProjectIDNotFoundException;
 @Service
 public class ProjectManager implements IProjectManager {
 	@Autowired
-	private ProjectDBConnector dbconnector;
+	private IProjectDBConnector dbconnector;
 
 	/**
 	 * Deletes the project from the database after validation of parameter.
@@ -56,8 +55,7 @@ public class ProjectManager implements IProjectManager {
 	 *            The project object that is to be retrieved.
 	 * @return true if the project is retrieved from the database.
 	 * @throws HerckulesArgumentException
-	 *             Exception thrown if the provided projectID is empty
-	 *             or null
+	 *             Exception thrown if the provided projectID is empty or null
 	 */
 	public Project retrieveProject(Project project)
 			throws HerckulesArgumentException {
@@ -78,8 +76,7 @@ public class ProjectManager implements IProjectManager {
 	 *            The project object that is to be added.
 	 * @return true if the project is added to the database.
 	 * @throws HerckulesArgumentException
-	 *             Exception thrown if the provided projectID is empty
-	 *             or null
+	 *             Exception thrown if the provided projectID is empty or null
 	 */
 
 	@Override
@@ -105,8 +102,7 @@ public class ProjectManager implements IProjectManager {
 	 * @throws ProjectIDNotFoundException
 	 *             Exception thrown when project object does not exist.
 	 * @throws HerckulesArgumentException
-	 *             Exception thrown if the provided projectID is empty
-	 *             or null
+	 *             Exception thrown if the provided projectID is empty or null
 	 */
 	@Override
 	public boolean updateProject(Project project)

@@ -33,8 +33,8 @@ public class ProjectDBConnector implements IProjectDBConnector {
 	 * 
 	 * @param Project
 	 *            The project object that is to be retrieved to the database.
-	 * @return true Returns true if the project is successfully retrieved from the
-	 *         database.
+	 * @return true Returns true if the project is successfully retrieved from
+	 *         the database.
 	 */
 	@Transactional
 	public Project retrieveProject(Project project) {
