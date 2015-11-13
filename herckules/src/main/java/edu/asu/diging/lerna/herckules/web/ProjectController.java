@@ -3,14 +3,15 @@ package edu.asu.diging.lerna.herckules.web;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import edu.asu.diging.lerna.herckules.authentication.IUser;
 import edu.asu.diging.lerna.herckules.authentication.IUserManager;
+import edu.asu.diging.lerna.herckules.db.IProjectManager;
 import edu.asu.diging.lerna.herckules.domain.IProject;
 import edu.asu.diging.lerna.herckules.domain.impl.Project;
 
@@ -36,8 +37,24 @@ public class ProjectController {
 		proj.setCreator(user);
 		proj.setProjectid("PROJ2");
 		proj.setProjectName("Project Nr. Lorem");
-		projects.add(proj);
-		
+		projects.add(proj);		
 		return projects;
 	}
+
+	@RequestMapping(value = "auth/retrieveProject", method = RequestMethod.GET)
+	public String retrieveProject(ModelMap model) {
+		return "retrieveProject";
+	}
+
+	@RequestMapping(value = "auth/deleteProject", method = RequestMethod.GET)
+	public String deleteProject() {
+		return "deleteProject";
+	}
+
+	@RequestMapping(value = "auth/updateProject", method = RequestMethod.GET)
+	public String updateProject() {
+		return "updateProject";
+	}
+
+	
 }
