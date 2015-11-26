@@ -17,7 +17,7 @@ import edu.asu.diging.lerna.herckules.domain.impl.Project;
 
 @Controller
 public class ProjectController {
-	
+
 	@Autowired
 	private IUserManager userManager;
 
@@ -31,13 +31,12 @@ public class ProjectController {
 		proj.setProjectid("PROJ1");
 		proj.setProjectName("Project Nr. One");
 		projects.add(proj);
-		
 		proj = new Project();
 		proj.setDescription("Lorem Ipsum is simply dummy text of the printing and typesetting industry.");
 		proj.setCreator(user);
 		proj.setProjectid("PROJ2");
 		proj.setProjectName("Project Nr. Lorem");
-		projects.add(proj);		
+		projects.add(proj);
 		return projects;
 	}
 
@@ -56,5 +55,4 @@ public class ProjectController {
 		return "updateProject";
 	}
 
-	
 }

@@ -37,14 +37,13 @@ public class ProjectDBConnector implements IProjectDBConnector {
 	 *         the database.
 	 */
 	@Transactional
-	public Project retrieveProject(Project project) {
+	public Project retrieveProject(String projectId) {
 
 		TypedQuery<Project> query = manager
 				.createQuery(
-						"SELECT project FROM Project project WHERE project.creator == :creator",
+						"SELECT project FROM Project project WHERE project.projectid == projectId",
 						Project.class);
-		project = query.setParameter("creator", project.getCreator())
-				.getSingleResult();
+		Project project = query.getSingleResult();
 		return project;
 	}
 
@@ -58,7 +57,6 @@ public class ProjectDBConnector implements IProjectDBConnector {
 	 */
 	@Transactional
 	public boolean addProject(Project project) {
-
 		manager.persist(project);
 		return true;
 	}
@@ -76,7 +74,6 @@ public class ProjectDBConnector implements IProjectDBConnector {
 	@Transactional
 	public boolean updateProject(Project project)
 			throws ProjectIDNotFoundException {
-
 		Project proj = manager.find(Project.class, project.getProjectid());
 		if (proj != null) {
 			proj.setCreator(project.getCreator());

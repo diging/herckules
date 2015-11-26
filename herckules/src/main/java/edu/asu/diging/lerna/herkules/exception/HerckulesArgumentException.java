@@ -1,8 +1,4 @@
 package edu.asu.diging.lerna.herkules.exception;
-
-/**
- * This class throws Exception if the parameter is NULL or EMPTY
- */
 public class HerckulesArgumentException extends Exception {
 
 	private static final long serialVersionUID = -1143264011147534606L;

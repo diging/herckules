@@ -4,7 +4,7 @@ import edu.asu.diging.lerna.herckules.domain.impl.Project;
 import edu.asu.diging.lerna.herkules.exception.ProjectIDNotFoundException;
 
 public interface IProjectDBConnector {
-	public Project retrieveProject(Project project);
+	public Project retrieveProject(String projectId);
 
 	public boolean addProject(Project project);
 

@@ -1,10 +1,4 @@
 package edu.asu.diging.lerna.herkules.exception;
-
-/**
- * This class throws Exception when the specified ProjectID is not found in the
- * database.
- */
-
 public class ProjectIDNotFoundException extends Exception {
 
 	private static final long serialVersionUID = -5897854505878121897L;

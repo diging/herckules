@@ -57,15 +57,15 @@ public class ProjectManager implements IProjectManager {
 	 * @throws HerckulesArgumentException
 	 *             Exception thrown if the provided projectID is empty or null
 	 */
-	public Project retrieveProject(Project project)
+	public Project retrieveProject(String projectId)
 			throws HerckulesArgumentException {
 
-		if (project.getProjectid() == null
-				|| project.getProjectid().trim().equals("")) {
+		if (projectId == null
+				|| projectId.trim().equals("")) {
 			throw new HerckulesArgumentException(
 					IExceptionMessages.EMPTY_INPUT_EXCEPTION);
 		}
-		return dbconnector.retrieveProject(project);
+		return dbconnector.retrieveProject(projectId);
 
 	}
 
@@ -114,5 +114,12 @@ public class ProjectManager implements IProjectManager {
 					IExceptionMessages.EMPTY_INPUT_EXCEPTION);
 		}
 		return dbconnector.updateProject(project);
+	}
+
+	@Override
+	public Project retrieveProject(Project project)
+			throws HerckulesArgumentException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
