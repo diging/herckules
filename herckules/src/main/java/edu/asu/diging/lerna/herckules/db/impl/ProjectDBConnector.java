@@ -20,25 +20,23 @@ import edu.asu.diging.lerna.herkules.exception.*;
  * @author Tamalika Mukherjee
  * @author Vineel Vutukuri
  */
-
 @Component
 @Transactional
 public class ProjectDBConnector implements IProjectDBConnector {
-
 	@PersistenceContext
 	private EntityManager manager;
 
 	/**
 	 * Retrieves the project from the database.
 	 * 
-	 * @param Project
-	 *            The project object that is to be retrieved to the database.
+	 * @param projectId
+	 *            The ID of project object that is to be retrieved from the
+	 *            database.
 	 * @return true Returns true if the project is successfully retrieved from
 	 *         the database.
 	 */
 	@Transactional
 	public Project retrieveProject(String projectId) {
-
 		TypedQuery<Project> query = manager
 				.createQuery(
 						"SELECT project FROM Project project WHERE project.projectid == projectId",
@@ -64,17 +62,19 @@ public class ProjectDBConnector implements IProjectDBConnector {
 	/**
 	 * Updates all the attributes of the project.
 	 * 
-	 * @param Project
-	 *            The project object that is to be retrieved from the database.
+	 * @param projectId
+	 *            The ID of the project object that is to be Updated in the
+	 *            database.
 	 * @return true Returns true if the project object is updated.
 	 * @throws ProjectIDNotFoundException
 	 *             Exception thrown when the projectID is not found in the
 	 *             database.
 	 */
 	@Transactional
-	public boolean updateProject(Project project)
+	public boolean updateProject(String projectId)
 			throws ProjectIDNotFoundException {
-		Project proj = manager.find(Project.class, project.getProjectid());
+		Project project = retrieveProject(projectId);
+		Project proj = manager.find(Project.class, projectId);
 		if (proj != null) {
 			proj.setCreator(project.getCreator());
 			proj.setProjectAdmins(project.getProjectAdmins());
@@ -94,26 +94,21 @@ public class ProjectDBConnector implements IProjectDBConnector {
 	 * Removes the project with the specified projectID.
 	 * 
 	 * @param projectID
-	 *            The projectID that is to be deleted from the database.
+	 *            The ID of the project that is to be deleted from the database.
 	 * @return true Returns true if the project is deleted.
 	 * @throws ProjectIDNotFoundException
 	 *             Exception thrown when the projectID is not found in the
 	 *             database.
 	 */
-
 	@Transactional
 	public boolean deleteProject(String projectID)
 			throws ProjectIDNotFoundException {
-
 		Project project = manager.find(Project.class, projectID);
-
 		if (project != null) {
 			manager.remove(project);
 			return true;
 		}
-
 		throw new ProjectIDNotFoundException(
 				IExceptionMessages.PROJECTID_EXCEPTION);
-
 	}
 }

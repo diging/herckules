@@ -8,7 +8,7 @@ public interface IProjectDBConnector {
 
 	public boolean addProject(Project project);
 
-	public boolean updateProject(Project project)
+	public boolean updateProject(String projectId)
 			throws ProjectIDNotFoundException;
 
 	public boolean deleteProject(String projectid)

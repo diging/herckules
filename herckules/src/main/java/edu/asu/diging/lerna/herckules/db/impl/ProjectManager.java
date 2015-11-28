@@ -36,14 +36,11 @@ public class ProjectManager implements IProjectManager {
 	 * @throws HerckulesArgumentException
 	 *             Exception thrown if the provided projectID is empty or null
 	 */
-
 	public boolean deleteProject(String projectid)
 			throws HerckulesArgumentException, ProjectIDNotFoundException {
-
 		if (projectid == null || projectid.trim().equals("")) {
 			throw new HerckulesArgumentException(
 					IExceptionMessages.EMPTY_INPUT_EXCEPTION);
-
 		}
 		return dbconnector.deleteProject(projectid);
 	}
@@ -51,22 +48,19 @@ public class ProjectManager implements IProjectManager {
 	/**
 	 * Retrieves the project from the database after validation of parameter.
 	 * 
-	 * @param project
-	 *            The project object that is to be retrieved.
+	 * @param projectId
+	 *            The ID of the project object that is to be retrieved.
 	 * @return true if the project is retrieved from the database.
 	 * @throws HerckulesArgumentException
-	 *             Exception thrown if the provided projectID is empty or null
+	 *             Exception thrown if the provided projectId is empty or null
 	 */
 	public Project retrieveProject(String projectId)
 			throws HerckulesArgumentException {
-
-		if (projectId == null
-				|| projectId.trim().equals("")) {
+		if (projectId == null || projectId.trim().equals("")) {
 			throw new HerckulesArgumentException(
 					IExceptionMessages.EMPTY_INPUT_EXCEPTION);
 		}
 		return dbconnector.retrieveProject(projectId);
-
 	}
 
 	/**
@@ -82,7 +76,6 @@ public class ProjectManager implements IProjectManager {
 	@Override
 	public boolean addProject(Project project)
 			throws HerckulesArgumentException {
-
 		if (project == null || project.getProjectid() == null
 				|| project.getProjectid().trim().equals("")
 				|| project.getProjectName() == null
@@ -96,8 +89,8 @@ public class ProjectManager implements IProjectManager {
 	/**
 	 * Updates to the database after validation of parameter.
 	 * 
-	 * @param project
-	 *            The project object that is to be updated.
+	 * @param projectId
+	 *            The ID of the project object that is to be updated.
 	 * @return true if the project is updated in the database.
 	 * @throws ProjectIDNotFoundException
 	 *             Exception thrown when project object does not exist.
@@ -105,21 +98,12 @@ public class ProjectManager implements IProjectManager {
 	 *             Exception thrown if the provided projectID is empty or null
 	 */
 	@Override
-	public boolean updateProject(Project project)
+	public boolean updateProject(String projectId)
 			throws ProjectIDNotFoundException, HerckulesArgumentException {
-
-		if (project.getProjectid() == null
-				|| project.getProjectid().trim().equals("")) {
+		if (projectId == null || projectId.trim().equals("")) {
 			throw new HerckulesArgumentException(
 					IExceptionMessages.EMPTY_INPUT_EXCEPTION);
 		}
-		return dbconnector.updateProject(project);
-	}
-
-	@Override
-	public Project retrieveProject(Project project)
-			throws HerckulesArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		return dbconnector.updateProject(projectId);
 	}
 }

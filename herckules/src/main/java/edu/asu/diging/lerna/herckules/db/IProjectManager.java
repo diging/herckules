@@ -8,12 +8,12 @@ public interface IProjectManager {
 	public boolean deleteProject(String projectid)
 			throws HerckulesArgumentException, ProjectIDNotFoundException;
 
-	public Project retrieveProject(Project project)
+	public Project retrieveProject(String projectId)
 			throws HerckulesArgumentException;
 
 	public boolean addProject(Project project)
 			throws HerckulesArgumentException;
 
-	public boolean updateProject(Project project)
+	public boolean updateProject(String projectId)
 			throws HerckulesArgumentException, ProjectIDNotFoundException;
 }
